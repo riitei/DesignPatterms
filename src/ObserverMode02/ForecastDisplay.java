@@ -17,35 +17,28 @@ public class ForecastDisplay implements Observer, DisplayElement {
     // 預測
     private float currentPresure = 29.f; // 當前 目前 氣壓
     private float lastPresure; // 最後 氣壓
+    private WeatherData weatherData;
 
     public ForecastDisplay(Observable observable) { // 被觀察者
-        WeatherData weatherData = (WeatherData) observable;
-        
+        weatherData = (WeatherData) observable;
+
         weatherData.addObserver(this);// 註冊 觀察者(公布欄)
     }
-    
-//
-//    @Override
-//    public void update(float temperature, float humidity, float pressure) {
-//        this.temperature = temperature;
-//        this.humidity = humidity;
-//        display();
-//    }
-//
-//    @Override
-//    public void display() {
-//        System.out.println("Forecast(預測) Conditions(條件 狀態)Display: " + temperature
-//                + " C degrees(度) and " + humidity + " % humidity()");
-//    }
+
 
     @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Observable observable, Object arg) {
+        if (observable instanceof WeatherData) {
+            // 測試 WeatherData 是不是 observable 的子類別或是實作介面
+            lastPresure = currentPresure;
+            currentPresure = weatherData.getPressure();
+            display();
+        }
     }
 
     @Override
     public void display() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //
     }
 
 }
